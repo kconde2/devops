@@ -1,0 +1,11 @@
+version: '3.6'
+services:
+    apache:
+        build: ./docker/apache
+        container_name: devops
+        volumes:
+            - ./docker/apache/apache2.conf:/etc/apache2/conf-enabled/apache2.conf:ro
+            - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+            - ./:/var/www/symfony:cached
+        ports:
+            - 8080:80
