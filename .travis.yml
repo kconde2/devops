@@ -33,6 +33,7 @@ after_success:
   - docker build -t kabaconde/symfony-devops ./docker/apache
   - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
   - docker login -u DOCKER_LOGIN" -p DOCKER_PASSWORD
+  - echo $OCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
   - docker push kabaconde/symfony-devops;
 deploy:
   provider: script
