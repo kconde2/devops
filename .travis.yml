@@ -11,18 +11,18 @@ warnings_are_errors: false
 services:
   - "docker"
 
+php:
+  - 7.3
+
 # before_install:
 #   - make setup
 
 # install:
 #   - make install-project
 
-script:
-  # - make test
-  - make build-image
-
-php:
-  - 7.3
+# script:
+#   - make test
+#   - make build-image
 
 after_success:
   #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
