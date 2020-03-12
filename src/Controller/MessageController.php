@@ -38,4 +38,17 @@ class MessageController extends AbstractController
         $em->flush();
         return new JsonResponse('Message saved');
     }
+
+    /**
+     * @Route("/", name="index_messages", methods={"GET", "POST"})
+     */
+    public function index(Request $request, MessageRepository $messageRepository)
+    {
+        $messages = $messageRepository->findAll();
+        $apiUrl = $_ENV["API_URL"];
+        return $this->render('index.html.twig', [
+            'api_url' => $apiUrl,
+            'messages' => $messages
+        ]);
+    }
 }
