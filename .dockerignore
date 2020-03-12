@@ -15,3 +15,4 @@
 !/assets
 !/yarn.lock
 !/docker
+!dist/*.whl

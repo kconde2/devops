@@ -1,51 +1,25 @@
-language: bash
-sudo: "required"
-os:
-  - linux
-
-cache:
-  directories:
-    - $HOME/.composer/cache
-    - $HOME/symfony-bridge/.phpunit
-
-warnings_are_errors: false
-
+sudo: required
 services:
-  - "docker"
+  - docker
+env:
+  global:
+    - IMAGE_NAME=acme-corp/cake-service
 
-# before_install:
-#   - make setup
-
-# install:
-#   - "make install-project"
-
+before_script:
+  - version="$(awk '$2 == "CAKE_SERVICE_VERSION" { print $3; exit }' Dockerfile)"
+  - docker pull "$IMAGE_NAME" || true
 script:
-#   - "make test"
-#   - "make image"
-    - echo $DOCKER_PASSWORD
-    # - echo $OCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
-    # - docker push kabaconde/symfony-devops
+  - docker build --pull --cache-from "$IMAGE_NAME" --tag "$IMAGE_NAME" ./docker/apache
 
-# php:
-#   - 7.3
+after_script:
+  - docker images
 
-after_success:
-  #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - echo "$DOCKER_USERNAME"
-  - echo "$DOCKER_PASSWORD"
-  # - docker build -t kabaconde/symfony-devops ./docker/apache
-  # - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
-  # - docker login -u DOCKER_LOGIN" -p DOCKER_PASSWORD
-  - docker tag kabaconde/symfony-devops hello-world:latest
-  - docker run hello-world
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  #- echo $DOCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
-  - docker push kabaconde/hello-world:latest
-# deploy:
-#   provider: script
-#   script: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD && make push-image
-#   on:
-#     branch: master
-
-notifications:
-  email: false
+before_deploy:
+  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}"
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
+  on:
+    branch: master
