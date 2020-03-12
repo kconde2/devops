@@ -14,7 +14,10 @@ fixtures:
 test-data: reset fixtures
 
 test:
-	true
+	chmod +x ./travis/test.sh && ./travis/test.sh
+
+test:
+	chmod +x ./install-project.sh && ./install-project.sh
 
 image:
 	docker build -t $(IMAGE) .
