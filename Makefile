@@ -17,10 +17,10 @@ setup:
 	chmod +x ./.travis/main.sh && "./.travis/main.sh"
 
 test:
-	chmod +x ./travis/test.sh && ./travis/test.sh
+	chmod +x ./.travis/test.sh && ./.travis/test.sh
 
 install-project:
-	chmod +x ./install-project.sh && ./install-project.sh
+	chmod +x ./.travisinstall-project.sh && ./.travis/install-project.sh
 
 image:
 	docker build -t $(IMAGE) .
