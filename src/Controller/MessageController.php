@@ -6,6 +6,7 @@ use App\Entity\Message;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,11 +42,31 @@ class MessageController extends AbstractController
 
     /**
      * @Route("/", name="index_messages", methods={"GET", "POST"})
+     * @param Request $request
+     * @param MessageRepository $messageRepository
+     * @return Response
      */
     public function index(Request $request, MessageRepository $messageRepository)
     {
         $messages = $messageRepository->findAll();
         $apiUrl = $_ENV["API_URL"];
+        if ($request->getMethod() === 'POST') {
+            $message = $request->request->get('message', '');
+            if (empty($message)) {
+                return $this->render('index.html.twig', [
+                    'api_url' => $apiUrl,
+                    'messages' => $messages
+                ]);
+            }
+            $client = HttpClient::create();
+            $response = $client->request('GET', 'http://localhost:8080/messages');
+            $client = HttpClient::create();
+            $response = $client->request('POST', $apiUrl, [
+//                'body' => ['content' => $message],
+//                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']
+            ]);
+
+        }
         return $this->render('index.html.twig', [
             'api_url' => $apiUrl,
             'messages' => $messages
