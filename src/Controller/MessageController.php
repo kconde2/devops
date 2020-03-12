@@ -6,6 +6,7 @@ use App\Entity\Message;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,10 +34,10 @@ class MessageController extends AbstractController
         if (empty($content)) {
             return new JsonResponse("Content can't be empty", 400);
         }
-        $message = (new Message())->setContent($content);
+        $message = (new Message())->setContent(strtoupper($content));
         $em->persist($message);
         $em->flush();
-        return new JsonResponse('Message saved');
+        return new JsonResponse($message->getContent());
     }
 
     /**
