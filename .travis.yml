@@ -1,7 +1,8 @@
 language: bash
 sudo: "required"
 os:
-  - osx
+  - linux
+
 cache:
   directories:
     - $HOME/.composer/cache
