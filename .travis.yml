@@ -20,7 +20,7 @@ services:
 script:
 #   - "make test"
 #   - "make image"
-    - then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"; docker push kabaconde/symfony-devops;
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"; docker push kabaconde/symfony-devops;
 
 # php:
 #   - 7.3
