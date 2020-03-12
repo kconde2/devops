@@ -1,4 +1,4 @@
-language: php
+language: shell
 sudo: "required"
 
 cache:
@@ -20,14 +20,24 @@ services:
 script:
 #   - "make test"
 #   - "make image"
-    - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"; docker push kabaconde/symfony-devops; fi
+    - then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"; docker push kabaconde/symfony-devops;
 
-php:
-  - 7.3
+# php:
+#   - 7.3
 
-# after_success:
-#   #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-#   - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"; docker push kabaconde/symfony-devops; fi
+after_success:
+  #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - echo "$DOCKER_LOGIN"
+  - echo "$DOCKER_PASSWORD"
+  - docker build -t kabaconde/symfony-devops ./docker/apache
+  - docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"
+  - docker login -u "DOCKER_LOGIN" -p "DOCKER_PASSWORD"
+  - docker push kabaconde/symfony-devops;
+deploy:
+  provider: script
+  script: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD && make push-image
+  on:
+    branch: master
 
 notifications:
   email: false
