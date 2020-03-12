@@ -37,9 +37,10 @@ after_success:
   # - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
   # - docker login -u DOCKER_LOGIN" -p DOCKER_PASSWORD
   - docker tag kabaconde/symfony-devops hello-world:latest
+  - docker run hello-world
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   #- echo $DOCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
-  - docker push kabaconde/symfony-devops
+  - docker push kabaconde/hello-world:latest
 # deploy:
 #   provider: script
 #   script: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD && make push-image
