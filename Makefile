@@ -23,7 +23,7 @@ install-project:
 	chmod +x ./.travis/install-project.sh && ./.travis/install-project.sh
 
 image:
-	docker build -t $(IMAGE) .
+	docker build -t $(IMAGE) ./docker/apache
 
 push-image:
 	docker push $(IMAGE)
