@@ -9,8 +9,13 @@ services:
             - ./:/var/www/symfony:cached
         expose:
             - 80
+        networks:
+            - ot_network
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.devops.rule=Host(`${PRODUCTION_DOMAIN_NAME}`)"
             - "traefik.http.routers.devops.tls.certresolver=leresolver"
             - "traefik.http.routers.devops.entrypoints=websecure"
+networks:
+  ot_network:
+    external: true
