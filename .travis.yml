@@ -15,7 +15,7 @@ before_install:
   - make setup
 
 install:
-  - "make install-project-test"
+  - "make install-project"
 
 script:
   - "make test"

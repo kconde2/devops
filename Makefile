@@ -19,7 +19,7 @@ setup:
 test:
 	chmod +x ./travis/test.sh && ./travis/test.sh
 
-test:
+install-project:
 	chmod +x ./install-project.sh && ./install-project.sh
 
 image:
