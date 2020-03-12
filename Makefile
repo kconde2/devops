@@ -13,6 +13,9 @@ fixtures:
 
 test-data: reset fixtures
 
+setup:
+	chmod +x ./.travis/main.sh && "./.travis/main.sh"
+
 test:
 	chmod +x ./travis/test.sh && ./travis/test.sh
 
