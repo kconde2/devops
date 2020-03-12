@@ -20,7 +20,7 @@ test:
 	chmod +x ./.travis/test.sh && ./.travis/test.sh
 
 install-project:
-	chmod +x ./.travisinstall-project.sh && ./.travis/install-project.sh
+	chmod +x ./.travis/install-project.sh && ./.travis/install-project.sh
 
 image:
 	docker build -t $(IMAGE) .
