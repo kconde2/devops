@@ -25,9 +25,8 @@ php:
   - 7.3
 
 after_success:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - make push-image
-
+  #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push kabaconde/symfony-devops:travis-$TRAVIS_BUILD_NUMBER; fi
 
 notifications:
   email: false
