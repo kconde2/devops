@@ -15,11 +15,11 @@ before_install:
   - make setup
 
 install:
-  - "make install-project"
+  - make install-project
 
 script:
-  - "make test"
-  - "make image"
+  - make test
+  - make build-image
 
 php:
   - 7.3
