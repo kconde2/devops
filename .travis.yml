@@ -31,13 +31,14 @@ script:
 
 after_success:
   #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - echo $DOCKER_LOGIN
-  - echo $DOCKER_PASSWORD
+  - echo "$DOCKER_USERNAME"
+  - echo "$DOCKER_PASSWORD"
   # - docker build -t kabaconde/symfony-devops ./docker/apache
   # - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
   # - docker login -u DOCKER_LOGIN" -p DOCKER_PASSWORD
   - docker tag kabaconde/symfony-devops hello-world:latest
-  - echo $DOCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  #- echo $DOCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
   - docker push kabaconde/symfony-devops
 # deploy:
 #   provider: script
