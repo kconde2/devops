@@ -1,0 +1,16 @@
+version: '3.6'
+services:
+    apache:
+        build: ./docker/apache
+        container_name: devops
+        volumes:
+            - ./docker/apache/apache2.conf:/etc/apache2/conf-enabled/apache2.conf:ro
+            - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+            - ./:/var/www/symfony:cached
+        expose:
+            - 80
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.devops.rule=Host(`${PRODUCTION_DOMAIN_NAME}`)"
+            - "traefik.http.routers.devops.tls.certresolver=leresolver"
+            - "traefik.http.routers.devops.entrypoints=websecure"
