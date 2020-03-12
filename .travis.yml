@@ -11,14 +11,14 @@ warnings_are_errors: false
 services:
   - "docker"
 
-before_install:
-  - make setup
+# before_install:
+#   - make setup
 
-install:
-  - make install-project
+# install:
+#   - make install-project
 
 script:
-  - make test
+  # - make test
   - make build-image
 
 php:
@@ -28,5 +28,7 @@ after_success:
   #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push kabaconde/symfony-devops:travis-$TRAVIS_BUILD_NUMBER; fi
 
+after_failure:
+  - cat MSBuild_*.failure.txt
 notifications:
   email: false
