@@ -16,7 +16,7 @@ services:
 
 before_install:
   # - make setup
-  - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push kabaconde/symfony-devops:travis-$TRAVIS_BUILD_NUMBER; fi
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push kabaconde/symfony-devops:travis-$TRAVIS_BUILD_NUMBER;
 
 # install:
 #   - make install-project
