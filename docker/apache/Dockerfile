@@ -1,6 +1,5 @@
-FROM python:3.6-slim
-
-ENV CAKE_SERVICE_VERSION 0.3.2
-RUN pip install --no-cache cake-service==$CAKE_SERVICE_VERSION
-
-CMD ["cake", "serve"]
+FROM python:3.7-alpine
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+CMD ["gunicorn", "-w 4", "main:app"]
