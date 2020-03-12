@@ -29,4 +29,13 @@ class MessageControllerTest extends WebTestCase
             $responseData
         );
     }
+    public function testPostEmptyMessage()
+    {
+        $client = static::createClient();
+        $emptyString = "";
+
+        $client->request('POST', '/messages', ['content' => $emptyString]);
+        
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
 }
