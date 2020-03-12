@@ -1,3 +1,5 @@
+IMAGE := kabaconde/devops-symfony
+
 reset:
 	docker-compose exec apache bin/console d:d:d --force
 	docker-compose exec apache bin/console d:d:c
@@ -10,3 +12,14 @@ fixtures:
 	docker-compose exec apache bin/console doctrine:fixtures:load --no-interaction
 
 test-data: reset fixtures
+
+test:
+	true
+
+image:
+	docker build -t $(IMAGE) .
+
+push-image:
+	docker push $(IMAGE)
+
+.PHONY: image push-image test
