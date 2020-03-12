@@ -29,7 +29,7 @@ push-image:
 	docker push $(IMAGE)
 
 build-image:
-	docker build -t $(IMAGE):travis-$TRAVIS_BUILD_NUMBER --file `pwd`/docker/apache/Dockerfile.prod `pwd`
+	docker build -t $(IMAGE):travis --file `pwd`/docker/apache/Dockerfile.prod `pwd`
 
 slim-image1:
 	docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock dslim/docker-slim build $(IMAGE):latest
