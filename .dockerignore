@@ -1,0 +1,17 @@
+*
+
+!/bin/
+!/config/
+!/public/
+!/src/
+!/templates/
+!/translations/
+!/.env.test
+!/.env
+!/composer.*
+!/symfony.lock
+!/package.json
+!/webpack.config.js
+!/assets
+!/yarn.lock
+!/docker
