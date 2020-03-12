@@ -6,6 +6,9 @@ reset:
 update:
 	docker-compose exec apache bin/console d:s:u --force
 
+install:
+	docker-compose exec apache composer install
+
 fixtures:
 	docker-compose exec apache bin/console doctrine:fixtures:load --no-interaction
 
