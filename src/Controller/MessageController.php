@@ -15,9 +15,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 class MessageController extends AbstractController
 {
     /**
-     * @Route("/message", name="get_messages", methods={"GET"})
+     * @Route("/messages", name="get_messages", methods={"GET"})
      */
-    public function getMessages(MessageRepository $messageRepository, SerializerInterface $serializer)
+    public function getMessage(MessageRepository $messageRepository, SerializerInterface $serializer)
     {
         $messages = $messageRepository->findAll();
         $messages = $serializer->serialize($messages, 'json');
@@ -25,7 +25,7 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/message", name="post_message", methods={"POST"})
+     * @Route("/messages", name="post_messages", methods={"POST"})
      */
     public function postMessage(Request $request, EntityManagerInterface $em)
     {
@@ -37,9 +37,5 @@ class MessageController extends AbstractController
         $em->persist($message);
         $em->flush();
         return new JsonResponse('Message saved');
-
-
     }
-
-
 }
