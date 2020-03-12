@@ -1,4 +1,4 @@
-IMAGE := kabaconde/devops-symfony
+IMAGE := kabaconde/symfony-devops
 
 reset:
 	docker-compose exec apache bin/console d:d:d --force
