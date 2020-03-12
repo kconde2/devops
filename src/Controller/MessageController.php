@@ -46,27 +46,10 @@ class MessageController extends AbstractController
      * @param MessageRepository $messageRepository
      * @return Response
      */
-    public function index(Request $request, MessageRepository $messageRepository)
+    public function index(MessageRepository $messageRepository)
     {
         $messages = $messageRepository->findAll();
         $apiUrl = $_ENV["API_URL"];
-        if ($request->getMethod() === 'POST') {
-            $message = $request->request->get('message', '');
-            if (empty($message)) {
-                return $this->render('index.html.twig', [
-                    'api_url' => $apiUrl,
-                    'messages' => $messages
-                ]);
-            }
-            $client = HttpClient::create();
-            $response = $client->request('GET', 'http://localhost:8080/messages');
-            $client = HttpClient::create();
-            $response = $client->request('POST', $apiUrl, [
-//                'body' => ['content' => $message],
-//                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']
-            ]);
-
-        }
         return $this->render('index.html.twig', [
             'api_url' => $apiUrl,
             'messages' => $messages
