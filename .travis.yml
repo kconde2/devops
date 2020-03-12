@@ -1,21 +1,22 @@
-language: php
+# language: php
 sudo: "required"
 
-cache:
-  directories:
-    - $HOME/.composer/cache
-    - $HOME/symfony-bridge/.phpunit
+# cache:
+#   directories:
+#     - $HOME/.composer/cache
+#     - $HOME/symfony-bridge/.phpunit
 
-warnings_are_errors: false
+# warnings_are_errors: false
 
 services:
   - "docker"
 
-php:
-  - 7.3
+# php:
+#   - 7.3
 
-# before_install:
-#   - make setup
+before_install:
+  # - make setup
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push kabaconde/symfony-devops:travis-$TRAVIS_BUILD_NUMBER; fi
 
 # install:
 #   - make install-project
@@ -24,11 +25,9 @@ php:
 #   - make test
 #   - make build-image
 
-after_success:
-  #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push kabaconde/symfony-devops:travis-$TRAVIS_BUILD_NUMBER; fi
+# after_success:
+#   #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#   - if [ "$TRAVIS_BRANCH" == "develop" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push kabaconde/symfony-devops:travis-$TRAVIS_BUILD_NUMBER; fi
 
-after_failure:
-  - cat MSBuild_*.failure.txt
 notifications:
   email: false
