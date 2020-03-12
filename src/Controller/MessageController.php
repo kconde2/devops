@@ -42,8 +42,11 @@ class MessageController extends AbstractController
 
     /**
      * @Route("/", name="index_messages", methods={"GET", "POST"})
+     * @param Request $request
+     * @param MessageRepository $messageRepository
+     * @return Response
      */
-    public function index(Request $request, MessageRepository $messageRepository)
+    public function index(MessageRepository $messageRepository)
     {
         $messages = $messageRepository->findAll();
         $apiUrl = $_ENV["API_URL"];
