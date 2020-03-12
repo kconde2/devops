@@ -4,6 +4,7 @@ services:
 env:
   global:
     - IMAGE_NAME=kabaconde/devops
+    - secure: "P5koQ3u7y3imCWgU+ci9tofZkstDYajo1xXOab81PDlQVVIcscXLukMdILJmSQZuzBjN8VQV33+BfuNZNpowC0UwuC/nePHPUUSKh29GyZDJWwMIZ9Upcl0xhhIrlXEzHuO8HwPTdeTu6QVUSMfS4J+g+Wr1SzZle0UQ/b0vzqf6gZaHgf97jLLqobZeIlT5w3DA+/ErkjAo0hxeftsfyrGjyrPdnp2sf0An1SdfUZN8HeIvMhqqNOVSEMeIHu5lw91ir3ijPAHeO3Gv5iVaYBfO8JyBhTev2+ZqLdc2iiCL4AAqLreOrTnKYlc6zbs/Uyzzc7RBkWZ+e7dKPJMtKX7nP9iaspoAblvLOTDQenjZbdCD3r81GLsDsRSUXYCj+V92Re35slc+DeH/Hmyfl6wr6h44rUZ01KrSa5TXk3ealhWN8FLY0cEc4OBn5H6P7N+uLk0no+nmgx+WMaMpArNxoBds7Te5g1k5eARvPbQV0q9CvgEEmAZe5PgN+WAqhJxFAMh5yStbSuGNFQEfxsZt5LbKWT1COW3W20Dl08VqSsQ51rvhspDuy+yj0AeWmXuIdOIDIgy1JoEgXMhoeLLcs/WQ794AZis+P6zevb/dU96xmTuhfpBNc/ItlLRl59CG7gXZb6nY5ux1fzg6JIar+OcKVIP18D8I8sT0618="
 
 before_script:
   - version="1.0"
