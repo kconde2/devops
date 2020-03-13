@@ -1,4 +1,4 @@
-version: '3.6'
+version: "3.6"
 services:
     apache:
         build: ./docker/apache
@@ -9,3 +9,28 @@ services:
             - ./:/var/www/symfony:cached
         ports:
             - 8080:80
+
+    elasticsearch:
+        container_name: sb-elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.8.6
+        ports:
+            - "9209:9200"
+        environment:
+            - "discovery.type=single-node"
+            - "bootstrap.memory_lock=true"
+            - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
+            - "xpack.security.enabled=false"
+            - "http.cors.enabled=true"
+            - "http.cors.allow-origin=*"
+
+    # kibana (official image)
+    # https://hub.docker.com/_/kibana
+    kibana:
+        container_name: sb-kibana
+        image: docker.elastic.co/kibana/kibana:6.8.6
+        ports:
+            - "5601:5601"
+        environment:
+            - "ELASTICSEARCH_URL=http://sb-elasticsearch"
+        depends_on:
+            - elasticsearch
