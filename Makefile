@@ -9,6 +9,7 @@ update:
 	docker-compose exec apache bin/console d:s:u --force
 
 install:
+	docker-compose exec apache chmod 777 var/data.db
 	docker-compose exec apache composer install
 
 fixtures:
@@ -41,5 +42,8 @@ slim-image:
 	docker save $(IMAGE):latest | sudo docker-squash -t $(IMAGE):latest-slim | docker load
 deploy:
 	chmod +x ./.travis/deploy.sh && ./.travis/deploy.sh
+restart:
+	docker-compose down
+	docker-compose -f docker-compose.prod.yml up -d --build
 
 .PHONY: image push-image test

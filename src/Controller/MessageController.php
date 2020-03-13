@@ -25,7 +25,7 @@ class MessageController extends AbstractController
         foreach ($messages as $message) {
             $output[] = $message->getMessage();
         }
-        return new Response(json_encode($output));
+        return $this->json($output);
     }
 
     /**
