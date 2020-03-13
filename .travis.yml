@@ -2,7 +2,6 @@ language: php
 sudo: required
 services:
   - docker
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -10,29 +9,27 @@ cache:
 env:
   global:
     - IMAGE_NAME=kabaconde/devops
-
-before_install:
-  - make setup
-
-install:
-  - make install-project
-
+# before_install:
+#   - make setup
+# install:
+#   - make install-project
 before_script:
   - version=$TRAVIS_JOB_ID
-
+  #- docker pull "$IMAGE_NAME" || true
 script:
   - docker build --tag "$IMAGE_NAME" -f ./docker/apache-prod/Dockerfile .
-
+  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}"
+  - docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
 after_script:
   - docker images
-
 before_deploy:
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
   - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
   - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}"
-
 deploy:
   provider: script
   script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
   on:
-    condition: "$TRAVIS_BRANCH = master"
+    branch: master
