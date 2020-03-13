@@ -44,6 +44,11 @@ RUN node -v; npm -v
 ## Yarn
 RUN npm install yarn -g; yarn --version
 
+## Copying only necessary things
+COPY ./docker/apache/apache2.conf /etc/apache2/conf-enabled/apache2.conf
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+COPY ./ /var/www/symfony
+
 ## Apache
 RUN a2enmod rewrite ssl
 
