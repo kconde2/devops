@@ -22,14 +22,12 @@ before_script:
 
 script:
   - make test
+  - docker build --tag "$IMAGE_NAME" -f ./docker/apache-prod/Dockerfile .
 
 after_script:
   - docker images
   - echo $TRAVIS_BRANCH
-
-after_success:
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
-    docker build --tag "$IMAGE_NAME" -f ./docker/apache-prod/Dockerfile .
     docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD";
     docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest";
     docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}";
