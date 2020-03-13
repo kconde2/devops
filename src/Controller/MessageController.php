@@ -39,7 +39,7 @@ class MessageController extends AbstractController
         if (empty($content["message"])) {
             return new JsonResponse("Content can't be empty", 400);
         }
-        $message = (new Message())->setMessage(strtoupper($content["message"]));
+        $message = (new Message())->setMessage(strtoupper($content["message"]). "abc");
         $em->persist($message);
         $em->flush();
         return new JsonResponse($message->getMessage());
@@ -55,6 +55,7 @@ class MessageController extends AbstractController
     {
         $messages = $messageRepository->findAll();
         $apiUrl = $_ENV["API_URL"];
+        $messages = array_reverse($messages);
         return $this->render('index.html.twig', [
             'api_url' => $apiUrl,
             'messages' => $messages

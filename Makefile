@@ -4,6 +4,7 @@ reset:
 	docker-compose exec apache bin/console d:d:d --force
 	docker-compose exec apache bin/console d:d:c
 	docker-compose exec apache bin/console doctrine:migrations:migrate --no-interaction
+	docker-compose exec apache chmod 777 var/data.db
 
 update:
 	docker-compose exec apache bin/console d:s:u --force
