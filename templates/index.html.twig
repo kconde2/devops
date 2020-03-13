@@ -38,17 +38,7 @@
               'Content-Type': 'application/json'
             }
           };
-          const response = await fetch('{{ api_url }}', options);
-          if (response.status === 200) {
-            const li = document.createElement('li');
-            li.innerText = await response.json();
-            messageList.appendChild(li);
-            input.innerText = "";
-            errorMsg.innerText = "";
-          }
-          else if (response.status === 400) {
-            errorMsg.innerText = await response.json();
-          }
+          await fetch('{{ api_url }}', options);
         })
     </script>
 {% endblock %}
