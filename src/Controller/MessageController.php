@@ -21,8 +21,11 @@ class MessageController extends AbstractController
     public function getMessage(MessageRepository $messageRepository, SerializerInterface $serializer)
     {
         $messages = $messageRepository->findAll();
-        $messages = $serializer->serialize($messages, 'json');
-        return new Response($messages);
+        $output = [];
+        foreach ($messages as $message) {
+            $output[] = $message->getMessage();
+        }
+        return new Response(json_encode($output));
     }
 
     /**
@@ -30,14 +33,15 @@ class MessageController extends AbstractController
      */
     public function postMessage(Request $request, EntityManagerInterface $em)
     {
-        $content = $request->request->get('content', '');
-        if (empty($content)) {
+        $content = json_decode($request->getContent(), true);
+
+        if (empty($content["message"])) {
             return new JsonResponse("Content can't be empty", 400);
         }
-        $message = (new Message())->setContent(strtoupper($content));
+        $message = (new Message())->setMessage(strtoupper($content["message"]));
         $em->persist($message);
         $em->flush();
-        return new JsonResponse($message->getContent());
+        return new JsonResponse($message->getMessage());
     }
 
     /**

@@ -19,21 +19,21 @@ class Message
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $content;
+    private $message;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getContent(): ?string
+    public function getMessage(): ?string
     {
-        return $this->content;
+        return $this->message;
     }
 
-    public function setContent(?string $content): self
+    public function setMessage(?string $message): self
     {
-        $this->content = $content;
+        $this->message = $message;
 
         return $this;
     }
