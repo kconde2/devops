@@ -21,19 +21,17 @@ before_script:
   - version=$TRAVIS_JOB_ID
 
 script:
-  - docker build --tag "$IMAGE_NAME" -f ./docker/apache-prod/Dockerfile .
+  - make test
 
 after_script:
   - docker images
   - echo $TRAVIS_BRANCH
 
-before_deploy:
-  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
-  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
-  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}"
-
-deploy:
-  provider: script
-  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
-  on:
-    condition: "$TRAVIS_BRANCH = develop"
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then
+    docker build --tag "$IMAGE_NAME" -f ./docker/apache-prod/Dockerfile .
+    docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD";
+    docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest";
+    docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}";
+    docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
+    fi
