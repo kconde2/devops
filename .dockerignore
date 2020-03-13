@@ -14,5 +14,4 @@
 !/webpack.config.js
 !/assets
 !/yarn.lock
-!/docker
 !dist/*.whl
