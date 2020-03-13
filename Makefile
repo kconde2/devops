@@ -9,6 +9,7 @@ update:
 	docker-compose exec apache bin/console d:s:u --force
 
 install:
+	docker-compose exec apache chmod 777 var/data.db
 	docker-compose exec apache composer install
 
 fixtures:

@@ -7,14 +7,23 @@ services:
             - ./docker/apache/apache2.conf:/etc/apache2/conf-enabled/apache2.conf:ro
             - ./docker/php/php.ini:/usr/local/etc/php/php.ini
             - ./:/var/www/symfony:cached
-        ports:
-            - 8080:80
+        expose:
+            - 80
+        networks:
+            - ot_network
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.devops.rule=Host(`${PRODUCTION_DOMAIN_NAME}`)"
+            - "traefik.http.routers.devops.tls.certresolver=leresolver"
+            - "traefik.http.routers.devops.entrypoints=websecure"
 
     elasticsearch:
         container_name: sb-elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:6.8.6
-        ports:
-            - "9209:9200"
+        expose:
+            - 9200
+        networks:
+            - ot_network
         environment:
             - "discovery.type=single-node"
             - "bootstrap.memory_lock=true"
@@ -28,9 +37,19 @@ services:
     kibana:
         container_name: sb-kibana
         image: docker.elastic.co/kibana/kibana:6.8.6
-        ports:
-            - "5601:5601"
+        expose:
+            - 5601
         environment:
             - "ELASTICSEARCH_URL=http://sb-elasticsearch"
         depends_on:
             - elasticsearch
+        networks:
+            - ot_network
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.kibana.rule=Host(`kibana.kabaconde.com`)"
+            - "traefik.http.routers.kibana.tls.certresolver=leresolver"
+            - "traefik.http.routers.kibana.entrypoints=websecure"
+networks:
+  ot_network:
+    external: true
