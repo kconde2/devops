@@ -25,6 +25,7 @@ script:
 
 after_script:
   - docker images
+  - echo $TRAVIS_BRANCH
 
 before_deploy:
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
