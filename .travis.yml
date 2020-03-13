@@ -35,4 +35,4 @@ deploy:
   provider: script
   script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
   on:
-    condition: "$TRAVIS_BRANCH == master"
+    condition: "$TRAVIS_BRANCH = master"
