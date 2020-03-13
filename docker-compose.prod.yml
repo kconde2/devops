@@ -31,6 +31,11 @@ services:
             - "xpack.security.enabled=false"
             - "http.cors.enabled=true"
             - "http.cors.allow-origin=*"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.elastic.rule=Host(`elastic.kabaconde.com`)"
+            - "traefik.http.routers.elastic.tls.certresolver=leresolver"
+            - "traefik.http.routers.elastic.entrypoints=websecure"
 
     # kibana (official image)
     # https://hub.docker.com/_/kibana
