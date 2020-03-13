@@ -39,6 +39,11 @@ class MessageController extends AbstractController
             return new JsonResponse("Content can't be empty", 400);
         }
         $message = (new Message())->setMessage(strtoupper($content["message"]));
+        $client = HttpClient::create();
+        $elasticSearchUrl = $_ENV["ELASTICSEARCH_URL"];
+        $client->request('POST', "{$elasticSearchUrl}/logs/_doc/", [
+            'json' => ['content' => $content["message"]]
+        ]);
         $em->persist($message);
         $em->flush();
         return new JsonResponse($message->getMessage());
