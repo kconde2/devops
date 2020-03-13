@@ -7,7 +7,7 @@ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock dslim/docker-sl
 ```
 
 ```shell
-docker run -d -p 80:80 --name=aya-naka nginx
+docker run -d -p 80:80 --name=devops kabaconde/devops:latest
 ```
 
 ```shell
