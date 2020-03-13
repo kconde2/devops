@@ -39,5 +39,7 @@ slim-image1:
 
 slim-image:
 	docker save $(IMAGE):latest | sudo docker-squash -t $(IMAGE):latest-slim | docker load
+deploy:
+	chmod +x ./.travis/deploy.sh && ./.travis/deploy.sh
 
 .PHONY: image push-image test
