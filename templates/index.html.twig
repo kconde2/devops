@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <form action="" method="post" id="message-form">
+        <div>
+            <label for="">Message</label>
+            <input type="text" name="content" id="content">
+            <button type="submit">Envoyer</button>
+            <p class="error-msg"></p>
+        </div>
+    </form>
+
+    <div>
+        <h1>Liste des messages</h1>
+        <ul class="message-list">
+            {% for message in messages %}
+            <li>{{ message.content }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const form = document.querySelector('#message-form');
+        const messageList = document.querySelector('.message-list');
+        const input = document.querySelector('#content');
+        const errorMsg = document.querySelector('.error-msg');
+        form.addEventListener('submit', async e => {
+          e.preventDefault();
+          const formData = new FormData(form);
+          const response = await fetch('{{ api_url }}', { method: 'POST', body: formData });
+          if (response.status === 200) {
+            const li = document.createElement('li');
+            li.innerText = await response.json();
+            messageList.appendChild(li);
+            input.innerText = "";
+            errorMsg.innerText = "";
+          }
+          else if (response.status === 400) {
+            errorMsg.innerText = await response.json();
+          }
+        })
+    </script>
+{% endblock %}
