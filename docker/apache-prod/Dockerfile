@@ -37,25 +37,20 @@ RUN echo "memory_limit = -1" > /usr/local/etc/php/conf.d/memory_limit.ini; \
 ## NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && apt-get install -y nodejs
 
-## Yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    apt-get update \
-    apt-get install yarn
-
 ## Confirm installation
-RUN node -v; npm -v; yarn --version
+RUN node -v; npm -v
 ## End NODEJS
 
-COPY ./docker/apache/apache2.conf /etc/apache2/conf-enabled/apache2.conf:ro
+## Yarn
+RUN npm install yarn -g; yarn --version
+
+## Copying only necessary things
+COPY ./docker/apache/apache2.conf /etc/apache2/conf-enabled/apache2.conf
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 COPY ./ /var/www/symfony
 
 ## Apache
 RUN a2enmod rewrite ssl
-
-## Install MJML
-RUN yarn global add mjml
 
 WORKDIR /var/www/symfony
 

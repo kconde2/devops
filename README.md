@@ -5,3 +5,15 @@
 ```shell
 docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock dslim/docker-slim build kabaconde/devops-symfony
 ```
+
+```shell
+docker run -d -p 80:80 --name=aya-naka nginx
+```
+
+```shell
+docker ps
+```
+
+```shell
+docker exec -it <container-id> bash
+```
